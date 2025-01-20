@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-import static ovh.eukon05.swiftly.util.Messages.*;
+import static ovh.eukon05.swiftly.util.Message.*;
 
 @Entity
 @Table(name = "banks")

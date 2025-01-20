@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ovh.eukon05.swiftly.service.BankService;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
+import ovh.eukon05.swiftly.web.dto.ResultDTO;
+
+import static ovh.eukon05.swiftly.util.Message.SUCCESS;
 
 @RestController
 @RequestMapping("/api/v1/swift-codes")
 @AllArgsConstructor
 public class BankController {
+    private static final ResultDTO SUCCESS_DTO = new ResultDTO(SUCCESS);
     private final BankService bankService;
 
     @GetMapping("/{swift}")
@@ -18,12 +22,14 @@ public class BankController {
     }
 
     @DeleteMapping("/{swift}")
-    public void deleteBank(@PathVariable("swift") String swift) {
+    public ResultDTO deleteBank(@PathVariable("swift") String swift) {
         bankService.deleteBank(swift);
+        return SUCCESS_DTO;
     }
 
     @PostMapping
-    public void createBank(@Valid @RequestBody BankDTO bank) {
+    public ResultDTO createBank(@Valid @RequestBody BankDTO bank) {
         bankService.createBank(bank);
+        return SUCCESS_DTO;
     }
 }

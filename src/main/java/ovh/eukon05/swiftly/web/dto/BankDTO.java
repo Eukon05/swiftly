@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.Objects;
 
-import static ovh.eukon05.swiftly.util.Messages.*;
+import static ovh.eukon05.swiftly.util.Message.*;
 
 @Getter
 public class BankDTO {
