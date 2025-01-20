@@ -32,4 +32,17 @@ public class BankService {
             return TO_BANK_DTO.apply(entity);
     }
 
+    public void deleteBank(String swiftCode) {
+        BankEntity entity = bankRepository.findById(swiftCode).orElseThrow(() -> new RuntimeException("Bank not found"));
+        bankRepository.delete(entity);
+    }
+
+    public void createBank(BankDTO bankDTO) {
+        if(bankRepository.existsById(bankDTO.getSwiftCode()))
+            throw new RuntimeException("Bank with the provided SWIFT code already exists");
+
+        BankEntity entity = new BankEntity(bankDTO.getSwiftCode(), bankDTO.getBankName(), bankDTO.getAddress(), bankDTO.getCountryISO2(), bankDTO.getCountryName());
+        bankRepository.save(entity);
+    }
+
 }

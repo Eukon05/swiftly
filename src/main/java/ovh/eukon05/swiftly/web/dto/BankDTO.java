@@ -11,19 +11,19 @@ import static ovh.eukon05.swiftly.util.Messages.*;
 @Getter
 public class BankDTO {
     @NotBlank(message = INVALID_SWIFT)
-    final String swiftCode;
+    private final String swiftCode;
     @NotBlank(message = INVALID_NAME)
-    final String bankName;
+    private final String bankName;
 
-    final String address;
+    private final String address;
 
     @NotBlank(message = INVALID_ISO2_BLANK)
     @Size(min = 2, max = 2, message = INVALID_ISO2_FORMAT)
-    final String countryISO2;
+    private final String countryISO2;
 
     @NotBlank(message = INVALID_COUNTRY)
-    String countryName;
-    final boolean isHeadquarter;
+    private final String countryName;
+    private final boolean isHeadquarter;
 
     public BankDTO(String swiftCode, String bankName, String address, String countryISO2, String countryName) {
         Objects.requireNonNull(swiftCode, INVALID_SWIFT);

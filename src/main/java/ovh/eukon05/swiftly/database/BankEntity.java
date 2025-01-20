@@ -6,9 +6,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Objects;
 
@@ -21,20 +19,20 @@ import static ovh.eukon05.swiftly.util.Messages.*;
 public class BankEntity {
     @Id
     @NotBlank(message = INVALID_SWIFT)
-    String swiftCode;
+    private String swiftCode;
 
     @NotBlank(message = INVALID_NAME)
-    String bankName;
-    String address;
+    private String bankName;
+    private String address;
 
     @NotBlank(message = INVALID_ISO2_BLANK)
     @Size(min = 2, max = 2, message = INVALID_ISO2_FORMAT)
-    String countryISO2;
+    private String countryISO2;
 
     @NotBlank(message = INVALID_COUNTRY)
-    String countryName;
+    private String countryName;
 
-    boolean headquarter;
+    private boolean headquarter;
 
     public BankEntity(String swiftCode, String bankName, String address, String countryISO2, String countryName) {
         Objects.requireNonNull(swiftCode, INVALID_SWIFT);
