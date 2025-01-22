@@ -7,6 +7,7 @@ import ovh.eukon05.swiftly.database.BankRepository;
 import ovh.eukon05.swiftly.exception.BankAlreadyExistsException;
 import ovh.eukon05.swiftly.exception.BankNotFoundException;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
+import ovh.eukon05.swiftly.web.dto.CountryDTO;
 import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 
 import java.util.List;
@@ -45,6 +46,15 @@ public class BankService {
 
         BankEntity entity = new BankEntity(bankDTO.getSwiftCode(), bankDTO.getBankName(), bankDTO.getAddress(), bankDTO.getCountryISO2(), bankDTO.getCountryName());
         bankRepository.save(entity);
+    }
+
+    public CountryDTO getBanksByCountry(String countryISO2){
+        List<BankDTO> branches = bankRepository.findAllByCountryISO2(countryISO2)
+                .stream()
+                .map(TO_BANK_DTO)
+                .toList();
+
+        return new CountryDTO(countryISO2, branches);
     }
 
 }

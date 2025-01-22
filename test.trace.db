@@ -548,3 +548,46 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at ovh.eukon05.swiftly.SwiftlyApplication.main(SwiftlyApplication.java:10)
+2025-01-20 17:36:40 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1573)
+	at com.intellij.database.remote.jdbc.impl.RemoteConnectionImpl.setClientInfo(RemoteConnectionImpl.java:469)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:714)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:598)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:844)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:721)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:720)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-01-21 11:45:00.776214+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-21 11:45:19.034937+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-21 11:50:36.285166+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-21 11:52:49.240618+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-21 11:53:57.722366+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-22 16:24:28.106675+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-22 16:26:18.307788+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]
+2025-01-22 20:07:56.833316+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "SWIFT_CODE CHARACTER VARYING(11)": "'12345678HALO' (12)"; SQL statement:
+INSERT INTO "PUBLIC"."BANKS_COPY_3_0"("COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE") OVERRIDING SYSTEM VALUE SELECT "COUNTRYISO2", "HEADQUARTER", "ADDRESS", "BANK_NAME", "COUNTRY_NAME", "SWIFT_CODE" FROM "PUBLIC"."BANKS" [22001-232]

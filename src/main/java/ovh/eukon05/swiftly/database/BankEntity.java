@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ovh.eukon05.swiftly.annotation.ISO2Code;
 
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ import static ovh.eukon05.swiftly.util.Message.*;
 @Data
 public class BankEntity {
     @Id
+    @Size(min = 8, max = 11)
     @NotBlank(message = INVALID_SWIFT)
     private String swiftCode;
 
@@ -25,8 +27,7 @@ public class BankEntity {
     private String bankName;
     private String address;
 
-    @NotBlank(message = INVALID_ISO2_BLANK)
-    @Size(min = 2, max = 2, message = INVALID_ISO2_FORMAT)
+    @ISO2Code
     private String countryISO2;
 
     @NotBlank(message = INVALID_COUNTRY)
@@ -47,7 +48,17 @@ public class BankEntity {
         headquarter = swiftCode.endsWith("XXX");
         this.bankName = bankName;
         this.address = address == null ? "" : address;
-        this.countryISO2 = countryISO2;
-        this.countryName = countryName;
+        this.countryISO2 = countryISO2.toUpperCase();
+        this.countryName = countryName.toUpperCase();
+    }
+
+    //Overrides for default lombok implementations of the setters to include always storing the values in uppercase
+
+    public void setCountryISO2(String countryISO2) {
+        this.countryISO2 = countryISO2.toUpperCase();
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName.toUpperCase();
     }
 }

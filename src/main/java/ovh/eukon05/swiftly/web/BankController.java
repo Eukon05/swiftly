@@ -3,8 +3,10 @@ package ovh.eukon05.swiftly.web;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ovh.eukon05.swiftly.annotation.ISO2Code;
 import ovh.eukon05.swiftly.service.BankService;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
+import ovh.eukon05.swiftly.web.dto.CountryDTO;
 import ovh.eukon05.swiftly.web.dto.ResultDTO;
 
 import static ovh.eukon05.swiftly.util.Message.SUCCESS;
@@ -31,5 +33,10 @@ public class BankController {
     public ResultDTO createBank(@Valid @RequestBody BankDTO bank) {
         bankService.createBank(bank);
         return SUCCESS_DTO;
+    }
+
+    @GetMapping("/country/{countryISO2}")
+    public CountryDTO getBanksByCountry(@PathVariable("countryISO2") @Valid @ISO2Code String countryISO2) {
+        return bankService.getBanksByCountry(countryISO2);
     }
 }

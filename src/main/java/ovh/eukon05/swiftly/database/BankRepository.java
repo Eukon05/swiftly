@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BankRepository extends JpaRepository<BankEntity, String> {
     List<BankEntity> findAllBySwiftCodeStartingWithAndHeadquarterFalse(String swiftStart);
+    List<BankEntity> findAllByCountryISO2(String countryISO2);
 }
