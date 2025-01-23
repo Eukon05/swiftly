@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dhatim.fastexcel.reader.ReadableWorkbook;
 import org.dhatim.fastexcel.reader.Sheet;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ovh.eukon05.swiftly.exception.BankAlreadyExistsException;
 import ovh.eukon05.swiftly.service.BankService;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
@@ -13,7 +13,7 @@ import ovh.eukon05.swiftly.web.dto.BankDTO;
 import java.io.*;
 import java.util.Optional;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class ExcelService {

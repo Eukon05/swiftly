@@ -1,5 +1,7 @@
 package ovh.eukon05.swiftly;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import ovh.eukon05.swiftly.excel.ExcelService;
 @SpringBootApplication
 @RequiredArgsConstructor
 @Slf4j
+@OpenAPIDefinition(info = @Info(title = "Swiftly", description = "An API for managing bank information", version = "1.0"))
 public class SwiftlyApplication {
 	@Value(value = "${swiftly.excelfile}")
 	private String excelFile;

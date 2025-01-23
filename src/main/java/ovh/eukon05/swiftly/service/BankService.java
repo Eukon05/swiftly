@@ -1,6 +1,5 @@
 package ovh.eukon05.swiftly.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ovh.eukon05.swiftly.database.BankEntity;
