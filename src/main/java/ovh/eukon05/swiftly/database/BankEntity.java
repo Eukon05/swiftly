@@ -20,7 +20,7 @@ import static ovh.eukon05.swiftly.util.Message.*;
 public class BankEntity {
     @Id
     @Size(min = 8, max = 11)
-    @NotBlank(message = INVALID_SWIFT)
+    @NotBlank(message = INVALID_SWIFT_BLANK)
     private String swiftCode;
 
     @NotBlank(message = INVALID_NAME)
@@ -36,7 +36,7 @@ public class BankEntity {
     private boolean headquarter;
 
     public BankEntity(String swiftCode, String bankName, String address, String countryISO2, String countryName) {
-        Objects.requireNonNull(swiftCode, INVALID_SWIFT);
+        Objects.requireNonNull(swiftCode, INVALID_SWIFT_BLANK);
         Objects.requireNonNull(bankName, INVALID_NAME);
         Objects.requireNonNull(countryISO2, INVALID_ISO2_BLANK);
         Objects.requireNonNull(countryName, INVALID_COUNTRY);

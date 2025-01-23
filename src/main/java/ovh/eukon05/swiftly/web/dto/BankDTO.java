@@ -12,7 +12,7 @@ import static ovh.eukon05.swiftly.util.Message.*;
 
 @Getter
 public class BankDTO {
-    @NotBlank(message = INVALID_SWIFT)
+    @NotBlank(message = INVALID_SWIFT_BLANK)
     @Size(min = 8, max = 11)
     private final String swiftCode;
 
@@ -30,10 +30,13 @@ public class BankDTO {
     private final boolean isHeadquarter;
 
     public BankDTO(String swiftCode, String bankName, String address, String countryISO2, String countryName) {
-        Objects.requireNonNull(swiftCode, INVALID_SWIFT);
+        Objects.requireNonNull(swiftCode, INVALID_SWIFT_BLANK);
         Objects.requireNonNull(bankName, INVALID_NAME);
         Objects.requireNonNull(countryISO2, INVALID_ISO2_BLANK);
         Objects.requireNonNull(countryName, INVALID_COUNTRY);
+
+        if(swiftCode.length() < 8 || swiftCode.length() > 11)
+            throw new IllegalArgumentException(INVALID_SWIFT_FORMAT);
 
         if(countryISO2.length() != 2)
             throw new IllegalArgumentException(INVALID_ISO2_FORMAT);
