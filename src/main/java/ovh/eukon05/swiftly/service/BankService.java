@@ -1,6 +1,7 @@
 package ovh.eukon05.swiftly.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ovh.eukon05.swiftly.database.BankEntity;
 import ovh.eukon05.swiftly.database.BankRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BankService {
     private final BankRepository bankRepository;
     private static final Function<BankEntity, BankDTO> TO_BANK_DTO = entity -> new BankDTO(entity.getSwiftCode(), entity.getBankName(), entity.getAddress(), entity.getCountryISO2(), entity.getCountryName());
