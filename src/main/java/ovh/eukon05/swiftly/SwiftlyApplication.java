@@ -1,6 +1,8 @@
 package ovh.eukon05.swiftly;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -9,7 +11,11 @@ import ovh.eukon05.swiftly.excel.ExcelService;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@Slf4j
 public class SwiftlyApplication {
+	@Value(value = "${swiftly.excelfile}")
+	private String excelFile;
+
 	private final ExcelService excelService;
 
 	public static void main(String[] args) {
@@ -18,6 +24,7 @@ public class SwiftlyApplication {
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent() {
-		excelService.parseExcel("src/main/resources/FILE.xlsx");
+		if(excelFile != null && !excelFile.isBlank())
+			excelService.parseExcel(excelFile);
 	}
 }
