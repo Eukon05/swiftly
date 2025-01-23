@@ -2,6 +2,7 @@ package ovh.eukon05.swiftly.web;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ovh.eukon05.swiftly.annotation.ISO2Code;
 import ovh.eukon05.swiftly.service.BankService;
@@ -14,6 +15,7 @@ import static ovh.eukon05.swiftly.util.Message.SUCCESS;
 @RestController
 @RequestMapping("/api/v1/swift-codes")
 @AllArgsConstructor
+@Validated
 public class BankController {
     private static final ResultDTO SUCCESS_DTO = new ResultDTO(SUCCESS);
     private final BankService bankService;
