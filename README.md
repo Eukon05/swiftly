@@ -116,3 +116,11 @@ If the bank we are trying to parse already exists in the database, the user will
 ```
 
 It's important to know, that the parser will ALWAYS skip the first row of the spreadsheet, as it is expected to be a header row.
+
+## How to run
+### 1. Run from source
+The app requires Java 23 to be installed on your system.  
+After cloning the repository, open the terminal in the directory of the clone where `pom.xml` file resides and run:  
+```shell
+./mvnw spring-boot:run "-Dspring-boot.run.arguments='--swiftly.excelfile=your/path/to/file.xlsx'"
+```
