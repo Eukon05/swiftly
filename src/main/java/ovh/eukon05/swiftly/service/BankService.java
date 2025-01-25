@@ -11,6 +11,7 @@ import ovh.eukon05.swiftly.web.dto.CountryDTO;
 import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 
 @Service
@@ -54,7 +55,8 @@ public class BankService {
                 .map(TO_BANK_DTO)
                 .toList();
 
-        return new CountryDTO(countryISO2, branches);
+        Locale locale = Locale.of("", countryISO2);
+        return new CountryDTO(countryISO2, locale.getDisplayCountry(Locale.ENGLISH).toUpperCase(), branches);
     }
 
 }
