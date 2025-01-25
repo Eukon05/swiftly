@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: swiftlydb
+      POSTGRES_USER: remitly
+      POSTGRES_PASSWORD: intern
+    volumes:
+      - swiftlydata:/pgdata
+
+  swiftly:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - swiftlydata:/appdata
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/swiftlydb
+      SPRING_DATASOURCE_USERNAME: remitly
+      SPRING_DATASOURCE_PASSWORD: intern
+      SWIFTLY_EXCELFILE: appdata/file.xlsx
+volumes:
+  swiftlydata:
