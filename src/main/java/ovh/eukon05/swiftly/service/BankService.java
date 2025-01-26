@@ -1,7 +1,10 @@
 package ovh.eukon05.swiftly.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import ovh.eukon05.swiftly.annotation.ISO2Code;
 import ovh.eukon05.swiftly.database.BankEntity;
 import ovh.eukon05.swiftly.database.BankRepository;
 import ovh.eukon05.swiftly.exception.BankAlreadyExistsException;
@@ -15,6 +18,7 @@ import java.util.Locale;
 import java.util.function.Function;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class BankService {
     private final BankRepository bankRepository;
@@ -41,7 +45,7 @@ public class BankService {
         bankRepository.delete(entity);
     }
 
-    public void createBank(BankDTO bankDTO) {
+    public void createBank(@Valid BankDTO bankDTO) {
         if(bankRepository.existsById(bankDTO.getSwiftCode()))
             throw new BankAlreadyExistsException();
 
@@ -49,7 +53,7 @@ public class BankService {
         bankRepository.save(entity);
     }
 
-    public CountryDTO getBanksByCountry(String countryISO2){
+    public CountryDTO getBanksByCountry(@Valid @ISO2Code String countryISO2){
         List<BankDTO> branches = bankRepository.findAllByCountryISO2(countryISO2)
                 .stream()
                 .map(TO_BANK_DTO)
