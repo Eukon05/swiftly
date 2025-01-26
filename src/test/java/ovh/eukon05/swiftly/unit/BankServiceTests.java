@@ -14,10 +14,12 @@ import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BankServiceTests {
+    private static final Function<BankEntity, BankDTO> TO_BANK_DTO = entity -> new BankDTO(entity.getSwiftCode(), entity.getBankName(), entity.getAddress(), entity.getCountryISO2(), entity.getCountryName());
     private static final BankRepository repository = Mockito.mock(BankRepository.class);
     private static final BankService bankService = new BankService(repository);
 
@@ -25,6 +27,9 @@ class BankServiceTests {
     private static final BankEntity bankOne = new BankEntity("12345678KRA", "TestBank Polska oddział w Krakowie", "Mockito Road 10, Cracow", "PL", "POLAND");
     private static final BankEntity bankTwo = new BankEntity("12345678POZ", "TestBank Polska oddział w Poznaniu", "JUnit Avenue 5", "PL", "POLAND");
 
+    private static final BankDTO hqOneDTO = TO_BANK_DTO.apply(hqOne);
+    private static final BankDTO bankOneDTO = TO_BANK_DTO.apply(bankOne);
+    private static final BankDTO bankTwoDTO = TO_BANK_DTO.apply(bankTwo);
     private static final BankDTO newBankDTO = new BankDTO("34567890XXX", "NewBank", "New Street", "DE", "GERMANY");
 
     @Test
@@ -32,7 +37,7 @@ class BankServiceTests {
         Mockito.when(repository.findById(bankOne.getSwiftCode())).thenReturn(Optional.of(bankOne));
         BankDTO dto = bankService.getBank(bankOne.getSwiftCode());
         assertFalse(dto instanceof HeadquarterDTO);
-        assertEquals(bankOne.getSwiftCode(), dto.getSwiftCode());
+        assertEquals(bankOneDTO, dto);
     }
 
     @Test
@@ -41,6 +46,7 @@ class BankServiceTests {
         Mockito.when(repository.findAllBySwiftCodeStartingWithAndHeadquarterFalse(hqOne.getSwiftCode().substring(0, 8))).thenReturn(List.of(bankOne, bankTwo));
         BankDTO result = bankService.getBank(hqOne.getSwiftCode());
 
+        assertEquals(hqOneDTO, result);
         assertInstanceOf(HeadquarterDTO.class, result);
         HeadquarterDTO headquarterDTO = (HeadquarterDTO) result;
         assertEquals(2, headquarterDTO.getBranches().size());
@@ -70,7 +76,6 @@ class BankServiceTests {
         assertThrows(BankAlreadyExistsException.class, () -> bankService.createBank(newBankDTO));
     }
 
-
     // should_not_create_invalid_bank
 
     @Test
@@ -78,7 +83,8 @@ class BankServiceTests {
         Mockito.when(repository.findAllByCountryISO2(hqOne.getCountryISO2())).thenReturn(List.of(hqOne, bankOne, bankTwo));
         CountryDTO dto = bankService.getBanksByCountry(hqOne.getCountryISO2());
         assertEquals(hqOne.getCountryISO2(), dto.countryISO2());
-        assertEquals(3, dto.swiftCodes().size());
+        assertEquals(hqOne.getCountryName(), dto.countryName());
+        assertTrue(dto.swiftCodes().containsAll(List.of(hqOneDTO, bankOneDTO, bankTwoDTO)));
     }
 
     @Test

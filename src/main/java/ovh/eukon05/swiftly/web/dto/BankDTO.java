@@ -3,6 +3,7 @@ package ovh.eukon05.swiftly.web.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import ovh.eukon05.swiftly.annotation.ISO2Code;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 import static ovh.eukon05.swiftly.util.Message.*;
 
 @Getter
+@EqualsAndHashCode
 public class BankDTO {
     @NotBlank(message = INVALID_SWIFT_BLANK)
     @Size(min = 8, max = 11)
