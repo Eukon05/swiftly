@@ -25,6 +25,8 @@ public class BankEntity {
 
     @NotBlank(message = INVALID_NAME)
     private String bankName;
+
+    @NotBlank(message = INVALID_ADDRESS)
     private String address;
 
     @ISO2Code
@@ -40,14 +42,15 @@ public class BankEntity {
         Objects.requireNonNull(bankName, INVALID_NAME);
         Objects.requireNonNull(countryISO2, INVALID_ISO2_BLANK);
         Objects.requireNonNull(countryName, INVALID_COUNTRY);
+        Objects.requireNonNull(address, INVALID_ADDRESS);
 
         if(countryISO2.length() != 2)
             throw new IllegalArgumentException(INVALID_ISO2_FORMAT);
 
         this.swiftCode = swiftCode;
         headquarter = swiftCode.endsWith("XXX");
-        this.bankName = bankName;
-        this.address = address == null ? "" : address;
+        this.bankName = bankName.trim();
+        this.address = address.trim();
         this.countryISO2 = countryISO2.toUpperCase();
         this.countryName = countryName.toUpperCase();
     }

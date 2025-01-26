@@ -26,6 +26,7 @@ public class ExcelService {
     private static final int SWIFT_COLUMN = 1;
     private static final int NAME_COLUMN = 3;
     private static final int ADDRESS_COLUMN = 4;
+    private static final int TOWN_COLUMN = 5;
     private static final int COUNTRY_COLUMN = 6;
 
     public void parseExcel(String fileName) {
@@ -35,6 +36,7 @@ public class ExcelService {
                 Optional<String> iso2;
                 Optional<String> swift;
                 Optional<String> name;
+                Optional<String> town;
                 Optional<String> address;
                 Optional<String> country;
 
@@ -42,15 +44,17 @@ public class ExcelService {
                 swift = r.getCellAsString(SWIFT_COLUMN);
                 name = r.getCellAsString(NAME_COLUMN);
                 address = r.getCellAsString(ADDRESS_COLUMN);
+                town = r.getCellAsString(TOWN_COLUMN);
                 country = r.getCellAsString(COUNTRY_COLUMN);
 
-                if(iso2.isEmpty() || swift.isEmpty() || name.isEmpty() || address.isEmpty() ||country.isEmpty()){
+                if(iso2.isEmpty() || swift.isEmpty() || name.isEmpty() || address.isEmpty() || town.isEmpty() || country.isEmpty()){
                     log.warn(INVALID_ROW, r.getRowNum());
                     return;
                 }
 
                 try {
-                    BankDTO bank = new BankDTO(swift.get(), name.get(), address.get(), iso2.get(), country.get());
+                    String resultAddress = address.get().isBlank() ? town.get() : address.get();
+                    BankDTO bank = new BankDTO(swift.get(), name.get(), resultAddress, iso2.get(), country.get());
                     bankService.createBank(bank);
                 }
                 catch(IllegalArgumentException | ConstraintViolationException e){

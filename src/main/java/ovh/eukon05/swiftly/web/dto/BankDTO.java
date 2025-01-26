@@ -19,6 +19,7 @@ public class BankDTO {
     @NotBlank(message = INVALID_NAME)
     private final String bankName;
 
+    @NotBlank(message = INVALID_ADDRESS)
     private final String address;
 
     @ISO2Code
@@ -34,6 +35,7 @@ public class BankDTO {
         Objects.requireNonNull(bankName, INVALID_NAME);
         Objects.requireNonNull(countryISO2, INVALID_ISO2_BLANK);
         Objects.requireNonNull(countryName, INVALID_COUNTRY);
+        Objects.requireNonNull(address, INVALID_ADDRESS);
 
         if(swiftCode.length() < 8 || swiftCode.length() > 11)
             throw new IllegalArgumentException(INVALID_SWIFT_FORMAT);
@@ -43,8 +45,8 @@ public class BankDTO {
 
         this.swiftCode = swiftCode;
         isHeadquarter = swiftCode.endsWith("XXX");
-        this.bankName = bankName;
-        this.address = address == null ? "" : address;
+        this.bankName = bankName.trim();
+        this.address = address.trim();
         this.countryISO2 = countryISO2.toUpperCase();
         this.countryName = countryName.toUpperCase();
     }
