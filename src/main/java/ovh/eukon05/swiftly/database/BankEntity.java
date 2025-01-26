@@ -44,6 +44,9 @@ public class BankEntity {
         Objects.requireNonNull(countryName, INVALID_COUNTRY);
         Objects.requireNonNull(address, INVALID_ADDRESS);
 
+        if(swiftCode.length() < 8 || swiftCode.length() > 11)
+            throw new IllegalArgumentException(INVALID_SWIFT_FORMAT);
+
         if(countryISO2.length() != 2)
             throw new IllegalArgumentException(INVALID_ISO2_FORMAT);
 

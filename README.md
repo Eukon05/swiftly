@@ -54,6 +54,7 @@ Returns a list of all banks located in the specified country:
 ```json
 {
   "countryISO2": "PL",
+  "countryName": "POLAND",
   "swiftCodes": [
     {
       "swiftCode": "AIPOPLP1XXX",
