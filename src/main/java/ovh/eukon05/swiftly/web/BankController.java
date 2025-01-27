@@ -14,7 +14,7 @@ import ovh.eukon05.swiftly.web.dto.ResultDTO;
 import static ovh.eukon05.swiftly.util.Message.SUCCESS;
 
 @RestController
-@RequestMapping("/api/v1/swift-codes")
+@RequestMapping("/v1/swift-codes")
 @RequiredArgsConstructor
 @Validated
 public class BankController {

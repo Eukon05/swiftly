@@ -45,7 +45,7 @@ More information about the specifics of the tests can be found below.
 > A similar situation applies to the DELETE endpoint. The task's description does not specify the request body for this endpoint, suggesting that the only needed value is the SWIFT code passed as a path variable, but the endpoint's description mentions that it also requires the bank's name and country.  
 > 
 
-**GET** `/api/v1/swift-codes/{swift}`  
+**GET** `/v1/swift-codes/{swift}`  
 Returns a JSON object containing bank details:  
 ```json
  {
@@ -85,7 +85,7 @@ When a SWIFT code is not present in the database, the user receives the followin
 }
 ```
 The same applies to the  
-**DELETE** `/api/v1/swift-codes/{swift}`  
+**DELETE** `/v1/swift-codes/{swift}`  
 endpoint, which removes the bank from the database.  
 In addition to the swift code as a path variable, the endpoint also requires the following input:  
 ```json
@@ -101,7 +101,7 @@ When the data does not match the one in the database, the user receives the foll
 }
 ```
 
-**GET** `/api/v1/swift-codes/country/{countryISO2}`  
+**GET** `/v1/swift-codes/country/{countryISO2}`  
 Returns a list of all banks located in the specified country:
 ```json
 {
@@ -127,7 +127,7 @@ When the provided ISO2 is invalid or doesn't correspond to a country, the user r
 }
 ```
 
-**POST** `/api/v1/swift-codes`
+**POST** `/v1/swift-codes`
 This endpoint creates a new bank entry in the database. It accepts the following input:  
 ```json
 {
@@ -170,7 +170,7 @@ If the bank we are trying to parse already exists in the database, the user will
 
 It's important to know, that the parser will ALWAYS skip the first row of the spreadsheet, as it is expected to be a header row.  
 
-All endpoints can be tested with SwaggerUI, which is available at `/api/v1/swagger-ui.html`
+All endpoints can be tested with SwaggerUI, which is available at `/v1/swagger-ui.html`
 
 ## Tests
 The app contains both unit and integration tests to ensure reliability.  

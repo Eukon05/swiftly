@@ -32,7 +32,7 @@ class BankIntegrationTests {
     I will check if the number of banks in a country is equal to the number in the excel file
     */
 
-    private static final String BASE_URL = "/api/v1/swift-codes";
+    private static final String BASE_URL = "/v1/swift-codes";
     private static final String SWIFT_CODE_URL = BASE_URL + "/%s";
     private static final String COUNTRY_URL = BASE_URL + "/country/%s";
 
