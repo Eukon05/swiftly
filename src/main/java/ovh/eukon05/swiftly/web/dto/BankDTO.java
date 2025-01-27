@@ -15,7 +15,7 @@ import static ovh.eukon05.swiftly.util.Message.*;
 @EqualsAndHashCode
 public class BankDTO {
     @NotBlank(message = INVALID_SWIFT_BLANK)
-    @Size(min = 8, max = 11)
+    @Size(min = 8, max = 11, message = INVALID_SWIFT_FORMAT)
     private final String swiftCode;
 
     @NotBlank(message = INVALID_NAME)

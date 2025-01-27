@@ -19,7 +19,7 @@ import static ovh.eukon05.swiftly.util.Message.*;
 @Data
 public class BankEntity {
     @Id
-    @Size(min = 8, max = 11)
+    @Size(min = 8, max = 11, message = INVALID_SWIFT_FORMAT)
     @NotBlank(message = INVALID_SWIFT_BLANK)
     private String swiftCode;
 
