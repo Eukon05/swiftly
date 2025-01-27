@@ -1,5 +1,6 @@
 package ovh.eukon05.swiftly.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import ovh.eukon05.swiftly.util.Message;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
+import ovh.eukon05.swiftly.web.dto.DeleteRequestDTO;
 import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 
 import static org.hamcrest.Matchers.containsString;
@@ -35,6 +37,7 @@ class BankIntegrationTests {
     private static final String COUNTRY_URL = BASE_URL + "/country/%s";
 
     private static final String deleteSwift = "AAISALTRXXX";
+    private static final DeleteRequestDTO deleteBody = new DeleteRequestDTO("UNITED BANK OF ALBANIA SH.A", "AL");
     private static final String nonexistentSwift = "THISISNOTABANK";
 
     private static final BankDTO aliorHQ = new BankDTO("ALBPPLPWXXX", "ALIOR BANK SPOLKA AKCYJNA", "LOPUSZANSKA BUSINESS PARK LOPUSZANSKA 38 D WARSZAWA, MAZOWIECKIE, 02-232", "PL", "POLAND");
@@ -64,7 +67,14 @@ class BankIntegrationTests {
                 .andReturn();
 
         HeadquarterDTO hqDTO = objMapper.readValue(res.getResponse().getContentAsString(), HeadquarterDTO.class);
-        assertEquals(aliorHQ, hqDTO);
+
+        assertEquals(aliorHQ.getSwiftCode(), hqDTO.getSwiftCode());
+        assertEquals(aliorHQ.getBankName(), hqDTO.getBankName());
+        assertEquals(aliorHQ.getCountryISO2(), hqDTO.getCountryISO2());
+        assertEquals(aliorHQ.getCountryName(), hqDTO.getCountryName());
+        assertEquals(aliorHQ.isHeadquarter(), hqDTO.isHeadquarter());
+        assertEquals(aliorHQ.getAddress(), hqDTO.getAddress());
+
         assertEquals(aliorBranch, hqDTO.getBranches().getFirst());
     }
 
@@ -93,7 +103,9 @@ class BankIntegrationTests {
 
     @Test
     void should_delete_bank() throws Exception {
-        mockMvc.perform(delete(SWIFT_CODE_URL.formatted(deleteSwift)))
+        mockMvc.perform(delete(SWIFT_CODE_URL.formatted(deleteSwift))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objMapper.writeValueAsString(deleteBody)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value(Message.SUCCESS));
 
@@ -104,9 +116,20 @@ class BankIntegrationTests {
 
     @Test
     void should_not_delete_nonexistent_bank() throws Exception {
-        mockMvc.perform(delete(SWIFT_CODE_URL.formatted(nonexistentSwift)))
+        mockMvc.perform(delete(SWIFT_CODE_URL.formatted(nonexistentSwift))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objMapper.writeValueAsString(deleteBody)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(Message.BANK_NOT_FOUND));
+    }
+
+    @Test
+    void should_not_delete_mismatch() throws Exception {
+        mockMvc.perform(delete(SWIFT_CODE_URL.formatted(aliorHQ.getSwiftCode()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objMapper.writeValueAsString(deleteBody)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(Message.DELETE_DATA_MISMATCH));
     }
 
     @Test
@@ -120,7 +143,12 @@ class BankIntegrationTests {
                 .andReturn();
 
         BankDTO hqDTO = objMapper.readValue(res.getResponse().getContentAsString(), HeadquarterDTO.class);
-        assertEquals(newHQ, hqDTO);
+        assertEquals(newHQ.getSwiftCode(), hqDTO.getSwiftCode());
+        assertEquals(newHQ.getBankName(), hqDTO.getBankName());
+        assertEquals(newHQ.getCountryISO2(), hqDTO.getCountryISO2());
+        assertEquals(newHQ.getCountryName(), hqDTO.getCountryName());
+        assertEquals(newHQ.isHeadquarter(), hqDTO.isHeadquarter());
+        assertEquals(newHQ.getAddress(), hqDTO.getAddress());
     }
 
     @Test

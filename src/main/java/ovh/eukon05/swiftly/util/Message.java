@@ -13,4 +13,5 @@ public final class Message {
     public static final String INVALID_ISO2_FORMAT = "The bank's country code must be a valid ISO2 code";
     public static final String INVALID_COUNTRY = "The bank's country name cannot be null or blank";
     public static final String INVALID_ADDRESS = "The bank's address cannot be null or blank";
+    public static final String DELETE_DATA_MISMATCH = "Provided data does not match the details of the bank";
 }

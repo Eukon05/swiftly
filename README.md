@@ -86,7 +86,20 @@ When a SWIFT code is not present in the database, the user receives the followin
 ```
 The same applies to the  
 **DELETE** `/api/v1/swift-codes/{swift}`  
-endpoint, which removes the bank from the database.
+endpoint, which removes the bank from the database.  
+In addition to the swift code as a path variable, the endpoint also requires the following input:  
+```json
+{
+  "bankName": "ALIOR BANK SPOLKA AKCYJNA",
+  "countryISO2": "PL"
+}
+```
+When the data does not match the one in the database, the user receives the following message:  
+```json
+{
+  "message": "Provided data does not match the details of the bank"
+}
+```
 
 **GET** `/api/v1/swift-codes/country/{countryISO2}`  
 Returns a list of all banks located in the specified country:

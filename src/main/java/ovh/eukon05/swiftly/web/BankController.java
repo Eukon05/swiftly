@@ -8,6 +8,7 @@ import ovh.eukon05.swiftly.annotation.ISO2Code;
 import ovh.eukon05.swiftly.service.BankService;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
 import ovh.eukon05.swiftly.web.dto.CountryDTO;
+import ovh.eukon05.swiftly.web.dto.DeleteRequestDTO;
 import ovh.eukon05.swiftly.web.dto.ResultDTO;
 
 import static ovh.eukon05.swiftly.util.Message.SUCCESS;
@@ -26,8 +27,8 @@ public class BankController {
     }
 
     @DeleteMapping("/{swift}")
-    public ResultDTO deleteBank(@PathVariable("swift") String swift) {
-        bankService.deleteBank(swift);
+    public ResultDTO deleteBank(@PathVariable("swift") String swift, @Valid @RequestBody DeleteRequestDTO deleteRequestDTO) {
+        bankService.deleteBank(swift, deleteRequestDTO);
         return SUCCESS_DTO;
     }
 

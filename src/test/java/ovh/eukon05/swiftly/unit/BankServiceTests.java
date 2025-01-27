@@ -6,9 +6,11 @@ import ovh.eukon05.swiftly.database.BankEntity;
 import ovh.eukon05.swiftly.database.BankRepository;
 import ovh.eukon05.swiftly.exception.BankAlreadyExistsException;
 import ovh.eukon05.swiftly.exception.BankNotFoundException;
+import ovh.eukon05.swiftly.exception.DeleteDataMismatchException;
 import ovh.eukon05.swiftly.service.BankService;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
 import ovh.eukon05.swiftly.web.dto.CountryDTO;
+import ovh.eukon05.swiftly.web.dto.DeleteRequestDTO;
 import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 
 import java.util.Collections;
@@ -46,7 +48,13 @@ class BankServiceTests {
         Mockito.when(repository.findAllBySwiftCodeStartingWithAndHeadquarterFalse(hqOne.getSwiftCode().substring(0, 8))).thenReturn(List.of(bankOne, bankTwo));
         BankDTO result = bankService.getBank(hqOne.getSwiftCode());
 
-        assertEquals(hqOneDTO, result);
+        assertEquals(hqOneDTO.getSwiftCode(), result.getSwiftCode());
+        assertEquals(hqOneDTO.getAddress(), result.getAddress());
+        assertEquals(hqOneDTO.getBankName(), result.getBankName());
+        assertEquals(hqOneDTO.getCountryISO2(), result.getCountryISO2());
+        assertEquals(hqOneDTO.getCountryName(), result.getCountryName());
+        assertEquals(hqOneDTO.isHeadquarter(), result.isHeadquarter());
+
         assertInstanceOf(HeadquarterDTO.class, result);
         HeadquarterDTO headquarterDTO = (HeadquarterDTO) result;
         assertEquals(2, headquarterDTO.getBranches().size());
@@ -55,13 +63,19 @@ class BankServiceTests {
     @Test
     void should_delete_bank(){
         Mockito.when(repository.findById(bankOne.getSwiftCode())).thenReturn(Optional.of(bankOne));
-        bankService.deleteBank(bankOne.getSwiftCode());
+        bankService.deleteBank(bankOne.getSwiftCode(), new DeleteRequestDTO(bankOne.getBankName(), bankOne.getCountryISO2()));
     }
 
     @Test
     void should_not_delete_non_existent_bank(){
         Mockito.when(repository.findById(bankOne.getSwiftCode())).thenReturn(Optional.empty());
-        assertThrows(BankNotFoundException.class, () -> bankService.deleteBank(bankOne.getSwiftCode()));
+        assertThrows(BankNotFoundException.class, () -> bankService.deleteBank(bankOne.getSwiftCode(), new DeleteRequestDTO(bankOne.getBankName(), bankOne.getCountryISO2())));
+    }
+
+    @Test
+    void should_not_delete_mismatch(){
+        Mockito.when(repository.findById(bankOne.getSwiftCode())).thenReturn(Optional.of(bankOne));
+        assertThrows(DeleteDataMismatchException.class, () -> bankService.deleteBank(bankOne.getSwiftCode(), new DeleteRequestDTO(bankTwo.getBankName(), hqOne.getCountryISO2())));
     }
 
     @Test

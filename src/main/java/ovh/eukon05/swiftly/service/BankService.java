@@ -1,6 +1,7 @@
 package ovh.eukon05.swiftly.service;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -9,8 +10,10 @@ import ovh.eukon05.swiftly.database.BankEntity;
 import ovh.eukon05.swiftly.database.BankRepository;
 import ovh.eukon05.swiftly.exception.BankAlreadyExistsException;
 import ovh.eukon05.swiftly.exception.BankNotFoundException;
+import ovh.eukon05.swiftly.exception.DeleteDataMismatchException;
 import ovh.eukon05.swiftly.web.dto.BankDTO;
 import ovh.eukon05.swiftly.web.dto.CountryDTO;
+import ovh.eukon05.swiftly.web.dto.DeleteRequestDTO;
 import ovh.eukon05.swiftly.web.dto.HeadquarterDTO;
 
 import java.util.List;
@@ -24,7 +27,7 @@ public class BankService {
     private final BankRepository bankRepository;
     private static final Function<BankEntity, BankDTO> TO_BANK_DTO = entity -> new BankDTO(entity.getSwiftCode(), entity.getBankName(), entity.getAddress(), entity.getCountryISO2(), entity.getCountryName());
 
-    public BankDTO getBank(String swiftCode) {
+    public BankDTO getBank(@NotBlank String swiftCode) {
         BankEntity entity = bankRepository.findById(swiftCode).orElseThrow(BankNotFoundException::new);
 
         if(entity.isHeadquarter()){
@@ -40,8 +43,12 @@ public class BankService {
             return TO_BANK_DTO.apply(entity);
     }
 
-    public void deleteBank(String swiftCode) {
+    public void deleteBank(@NotBlank String swiftCode, @Valid DeleteRequestDTO dto) {
         BankEntity entity = bankRepository.findById(swiftCode).orElseThrow(BankNotFoundException::new);
+
+        if(!entity.getBankName().equals(dto.bankName()) || !entity.getCountryISO2().equals(dto.countryISO2()))
+            throw new DeleteDataMismatchException();
+
         bankRepository.delete(entity);
     }
 
