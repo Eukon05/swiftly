@@ -3,9 +3,48 @@ Remitly Summer Internship 2025 recruitment task
 
 ## About the project
 The app parses a provided Excel spreadsheet containing bank details into an SQL databse.  
-The data is available to view and edit through a REST api, created using Spring Boot.  
+The data is available to view and edit through a REST api, created using Spring Boot.
+
+## How to run
+The app requires Java 23 to be installed on your system.
+### 1. Run from source
+You need to start a PostgreSQL instance on port 5432 with the username `remitly`, password `intern` and the database name `swiftlydb`.
+
+After cloning the repository, open the terminal in the directory of the clone where `pom.xml` file resides and run:
+```shell
+./mvnw spring-boot:run "-Dspring-boot.run.arguments='--swiftly.excelfile=your/path/to/file.xlsx'"
+```
+NOTE: You can skip the option for specifying the Excel file path. In that case, the app will use the excel file provided with the task, as it is included in the project files.
+
+### 2. Run with Docker Compose [preferred]
+Instead of going through the trouble of managing the database yourself, use Docker Compose to start the entire stack in one command.  
+This method requires Docker and Docker Compose to be installed on your system as well!
+
+- Clone the repository and open the directory where POM.xml resides in the terminal
+- Run `./mvnw clean package` to build the project
+- Run `docker compose up -d` to start both the database and the app in detached mode
+
+This method will make use of the Excel file provided with the task.
+
+## How to test
+If you wish to run tests on the project, clone the repository and in the directory containing `POM.xml` run the following command:  
+`./mvnw clean test`  
+This will run the included suite of unit and integration tests.  
+More information about the specifics of the tests can be found below.
 
 ## Endpoints
+
+> [!IMPORTANT]  
+> I had trouble understanding the descriptions of endpoints for creating a new bank, as well as for deleting one.  
+>
+> From my understanding, the only way to determine if a SWIFT code represents the HQ of a bank, is by checking if it's last three characters are 'XXX'.  
+> The description of the POST endpoint, however, specifies a separate, `isHeadquarter` field in the request body.  
+> In my opinion, this field is redundant, and it's use may result in incorrect labeling of database entries.  
+> As such, I've decided that my solution to the task will ignore this field entirely, and decide if a bank is an HQ or not based on the SWIFT code alone.
+>
+> A similar situation applies to the DELETE endpoint. The task's description does not specify the request body for this endpoint, suggesting that the only needed value is the SWIFT code passed as a path variable, but the endpoint's description mentions that it also requires the bank's name and country.  
+> 
+
 **GET** `/api/v1/swift-codes/{swift}`  
 Returns a JSON object containing bank details:  
 ```json
@@ -86,7 +125,7 @@ This endpoint creates a new bank entry in the database. It accepts the following
   "bankName": "ING"
 }
 ```
-All fields specified above CANNOT BE NULL OR EMPTY, except for the address field.  
+All fields specified above CANNOT BE NULL OR EMPTY.  
 Swift code must be between 8 and 11 chars. long, countryISO2 must be 2 chars. long and represent a real country.  
 
 Failing to meet these requirements will result in an error message (depending on the mistakes):
@@ -116,12 +155,24 @@ If the bank we are trying to parse already exists in the database, the user will
 2025-01-23T22:10:45.378+01:00  WARN 696 --- [swiftly] [           main] ovh.eukon05.swiftly.excel.ExcelService   : Duplicate row found at 541, skipping...
 ```
 
-It's important to know, that the parser will ALWAYS skip the first row of the spreadsheet, as it is expected to be a header row.
+It's important to know, that the parser will ALWAYS skip the first row of the spreadsheet, as it is expected to be a header row.  
 
-## How to run
-### 1. Run from source
-The app requires Java 23 to be installed on your system.  
-After cloning the repository, open the terminal in the directory of the clone where `pom.xml` file resides and run:  
-```shell
-./mvnw spring-boot:run "-Dspring-boot.run.arguments='--swiftly.excelfile=your/path/to/file.xlsx'"
-```
+All endpoints can be tested with SwaggerUI, which is available at `/api/v1/swagger-ui.html`
+
+## Tests
+The app contains both unit and integration tests to ensure reliability.  
+Unit tests are performed with JUnit 5 and Mockito, and they make sure that BankService correctly interacts with a database.  
+
+There is a separate set of unit tests dedicated to data validation.  
+They check if BankDTO and BankEntity throw exceptions, when someone tries to create an instance of them with invalid data.  
+Data integrity is provided by checks in constructors, and by utilising Jakarta Validation with annotations on fields.  
+
+Integration tests use an in-memory H2 database to test if the entire cycle of interacting with the app works as intended.  
+They simulate HTTP requests with MockMvc, which then passes the data to real service and database layers below.  
+The tests check if the users then receives the correct data, and if the data aligns with operations performed on the database (such as when there is a request to create a new entry, the tests also check if the entry gets saved in the database).
+
+## Edge cases
+As mentioned before, data validation relies on exceptions thrown by BankDTO and BankEntity.  
+The exceptions are then caught by BankControllerAdvice, and their messages are displayed to the user in the form of a simple JSON object, accompanied by a BAD REQUEST HTTP status code.  
+
+Situations when a bank does not exist or when a user tries to override a bank are also handled by BankControllerAdvice, but by utilizing special exceptions thrown by BankService, to make it clear what exactly happened.

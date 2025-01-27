@@ -46,7 +46,7 @@ public class BankDTO {
             throw new IllegalArgumentException(INVALID_ISO2_FORMAT);
 
         this.swiftCode = swiftCode;
-        isHeadquarter = swiftCode.endsWith("XXX");
+        this.isHeadquarter = swiftCode.endsWith("XXX");
         this.bankName = bankName.trim();
         this.address = address.trim();
         this.countryISO2 = countryISO2.toUpperCase();

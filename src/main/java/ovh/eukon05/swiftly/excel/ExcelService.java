@@ -64,10 +64,9 @@ public class ExcelService {
                     log.warn(DUPLICATE_ROW, r.getRowNum());
                 }
             });
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e){
+            log.error(e.getMessage());
+            System.exit(1);
         }
     }
 }

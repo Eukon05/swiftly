@@ -1,12 +1,14 @@
 package ovh.eukon05.swiftly.web.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.Objects;
 
 @Getter
+@EqualsAndHashCode(callSuper = true)
 public class HeadquarterDTO extends BankDTO{
     @NotNull
     private final List<BankDTO> branches;

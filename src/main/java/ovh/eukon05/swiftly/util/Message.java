@@ -1,6 +1,8 @@
 package ovh.eukon05.swiftly.util;
 
-public class Message {
+public final class Message {
+    private Message(){}
+
     public static final String SUCCESS = "Success";
     public static final String BANK_NOT_FOUND = "Bank with the given SWIFT code not found";
     public static final String BANK_ALREADY_EXISTS = "Bank with the given SWIFT code already exists";

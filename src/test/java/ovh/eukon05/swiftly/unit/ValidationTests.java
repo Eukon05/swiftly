@@ -12,7 +12,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ValidationTests {
+class ValidationTests {
     private static final String VALID_SWIFT_CODE = "12345678XXX";
     private static final String VALID_BANK_NAME = "TestBank";
     private static final String VALID_ADDRESS = "Test Street 31, Warsaw";
