@@ -6,11 +6,18 @@ The app parses a provided Excel spreadsheet containing bank details into an SQL 
 The data is available to view and edit through a REST api, created using Spring Boot.
 
 ## How to run
-The app requires Java 23 to be installed on your system.
+The app requires Java 23 to be installed on your system.  
+If you don't have it, I recommend downloading the Eclipse Temurin distribution of the JDK from:  
+https://adoptium.net/temurin/releases/?version=23&package=jdk
+
+Another useful tool is GIT, which can be downloaded from:  
+https://git-scm.com/downloads
 ### 1. Run from source
 You need to start a PostgreSQL instance on port 5432 with the username `remitly`, password `intern` and the database name `swiftlydb`.
 
-After cloning the repository, open the terminal in the directory of the clone where `pom.xml` file resides and run:
+Clone the repository using `git clone https://github.com/Eukon05/swiftly.git`, or download the ZIP file by clicking the button above.
+
+After cloning (or extracting) the repository, open the terminal in the directory of the clone where the `POM.xml` file resides and run:
 ```shell
 ./mvnw spring-boot:run "-Dspring-boot.run.arguments='--swiftly.excelfile=your/path/to/file.xlsx'"
 ```
@@ -20,7 +27,7 @@ NOTE: You can skip the option for specifying the Excel file path. In that case, 
 Instead of going through the trouble of managing the database yourself, use Docker Compose to start the entire stack in one command.  
 This method requires Docker and Docker Compose to be installed on your system as well!
 
-- Clone the repository and open the directory where POM.xml resides in the terminal
+- Clone the repository in the same way as above and open the terminal in the directory where `POM.xml` resides
 - Run `./mvnw clean package` to build the project
 - Run `docker compose up -d` to start both the database and the app in detached mode
 
@@ -189,3 +196,13 @@ As mentioned before, data validation relies on exceptions thrown by BankDTO and 
 The exceptions are then caught by BankControllerAdvice, and their messages are displayed to the user in the form of a simple JSON object, accompanied by a BAD REQUEST HTTP status code.  
 
 Situations when a bank does not exist or when a user tries to override a bank are also handled by BankControllerAdvice, but by utilizing special exceptions thrown by BankService, to make it clear what exactly happened.
+
+## Tech stack
+- Java 23
+- Spring Boot 3.4.1 (web, validation, data JPA)
+- Maven 3.9.9 (wrapper)
+- Docker + Docker Compose
+- PostgreSQL, H2DB
+- Fastexcel 0.18.4
+- Lombok
+- SpringDoc OpenAPI 2.8.3
