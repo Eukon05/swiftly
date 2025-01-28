@@ -6,13 +6,11 @@ The app parses a provided Excel spreadsheet containing bank details into an SQL 
 The data is available to view and edit through a REST api, created using Spring Boot.
 
 ## How to run
-The app requires Java 23 to be installed on your system.  
+### 1. Run from source
+This method requires Java 23 to be installed on your system.  
 If you don't have it, I recommend downloading the Eclipse Temurin distribution of the JDK from:  
 https://adoptium.net/temurin/releases/?version=23&package=jdk
 
-Another useful tool is GIT, which can be downloaded from:  
-https://git-scm.com/downloads
-### 1. Run from source
 You need to start a PostgreSQL instance on port 5432 with the username `remitly`, password `intern` and the database name `swiftlydb`.
 
 Clone the repository using `git clone https://github.com/Eukon05/swiftly.git`, or download the ZIP file by clicking the button above.
@@ -25,10 +23,12 @@ NOTE: You can skip the option for specifying the Excel file path. In that case, 
 
 ### 2. Run with Docker Compose [preferred]
 Instead of going through the trouble of managing the database yourself, use Docker Compose to start the entire stack in one command.  
-This method requires Docker and Docker Compose to be installed on your system as well!
+This method requires Docker and Docker Compose to be installed on your system!
+You can download them on:   
+https://www.docker.com/
 
-- Clone the repository in the same way as above and open the terminal in the directory where `POM.xml` resides
-- Run `./mvnw clean package` to build the project
+- Download the `docker-compose.yaml` file from this repository
+- Open the directory with the downloaded file in a terminal
 - Run `docker compose up -d` to start both the database and the app in detached mode
 
 This method will make use of the Excel file provided with the task.
@@ -37,7 +37,8 @@ This method will make use of the Excel file provided with the task.
 If you wish to run tests on the project, clone the repository and in the directory containing `POM.xml` run the following command:  
 `./mvnw clean test`  
 This will run the included suite of unit and integration tests.  
-More information about the specifics of the tests can be found below.
+More information about the specifics of the tests can be found below.  
+The tests are also run automatically on every push to this repository, thanks to GitHub Actions.
 
 ## Endpoints
 
