@@ -13,7 +13,7 @@ services:
   swiftly:
     depends_on:
       - db
-    build: .
+    image: eukon/swiftly
     ports:
       - "8080:8080"
     volumes:
